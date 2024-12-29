@@ -1,65 +1,217 @@
+/* General Styling */
 body {
-  font-family: Arial, sans-serif;
   margin: 0;
-  padding: 0;
-  background-color: #f4f4f9;
-  color: #333;
+  font-family: Arial, sans-serif;
+  background: linear-gradient(to bottom, #f4f4f9, #eaeaea);
+  display: flex;
+  flex-direction: column;
+  min-height: 100vh;
 }
 
 header {
-  background-color: #24292e;
+  background: linear-gradient(to right, #0366d6, #24292e);
   color: #fff;
-  padding: 1rem;
+  padding: 1.5rem;
   text-align: center;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+header h1 {
+  font-size: 2.5rem;
+  margin: 0;
+  font-weight: bold;
 }
 
 #search-bar {
-  margin: 1rem auto;
-  max-width: 600px;
+  margin: 1.5rem auto;
+  max-width: 700px;
   display: flex;
   justify-content: center;
   gap: 0.5rem;
+  align-items: center;
 }
 
 #searchInput {
   flex: 1;
-  padding: 0.5rem;
+  padding: 0.7rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
 }
 
 #searchButton {
-  padding: 0.5rem 1rem;
-  background-color: #0366d6;
+  padding: 0.7rem 1.5rem;
+  background: linear-gradient(to right, #0366d6, #1b7fed);
   color: #fff;
   border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
   cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#searchButton:hover {
+  background: linear-gradient(to right, #1b7fed, #0366d6);
+  transform: translateY(-2px);
+}
+
+#searchButton:active {
+  transform: translateY(2px);
 }
 
 #results {
   display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
-  gap: 1rem;
-  padding: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 1.5rem;
+  padding: 2rem;
+  margin: 0 auto;
+  max-width: 1200px;
 }
 
 .card {
-  background-color: #fff;
-  border: 1px solid #ddd;
-  border-radius: 5px;
-  padding: 1rem;
+  background: #fff;
+  border-radius: 10px;
+  padding: 1.5rem;
   text-align: center;
-  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
 }
 
 .card img {
   max-width: 100px;
   border-radius: 50%;
+  margin-bottom: 1rem;
 }
 
 .card h3 {
-  margin: 0.5rem 0;
+  font-size: 1.5rem;
+  color: #0366d6;
 }
 
 .card a {
   text-decoration: none;
   color: #0366d6;
+  font-weight: bold;
+  transition: color 0.2s ease;
+}
+
+.card a:hover {
+  color: #004a99;
+}
+
+/* Comparison Section Styling */
+#compare-section {
+  margin: 3rem auto;
+  text-align: center;
+}
+
+.compare-inputs {
+  display: flex;
+  justify-content: center;
+  gap: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.compare-inputs input {
+  padding: 0.7rem;
+  border: 2px solid #ccc;
+  border-radius: 5px;
+  font-size: 1rem;
+  width: 300px;
+}
+
+#compareButton {
+  padding: 0.7rem 1.5rem;
+  background: linear-gradient(to right, #1e90ff, #007bff);
+  color: #fff;
+  border: none;
+  border-radius: 5px;
+  font-size: 1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+}
+
+#compareButton:hover {
+  background: linear-gradient(to right, #007bff, #1e90ff);
+  transform: translateY(-2px);
+}
+
+#comparisonResults {
+  display: flex;
+  justify-content: center;
+  gap: 2rem;
+  flex-wrap: wrap;
+}
+
+.comparison-card {
+  width: 350px;
+  background: #f9f9f9;
+  border-radius: 10px;
+  padding: 1.5rem;
+  text-align: center;
+  box-shadow: 0 6px 12px rgba(0, 0, 0, 0.1);
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.comparison-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.15);
+}
+
+.comparison-card img {
+  max-width: 100px;
+  border-radius: 50%;
+  margin-bottom: 1rem;
+}
+
+.comparison-card h3 {
+  font-size: 1.5rem;
+  color: #0366d6;
+}
+
+.comparison-card p {
+  margin: 0.5rem 0;
+  font-size: 1.1rem;
+  font-weight: bold;
+}
+
+/* Footer Styling */
+footer {
+  margin-top: auto;
+  padding: 1rem;
+  background: #24292e;
+  color: #fff;
+  text-align: center;
+  font-size: 0.9rem;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 0.5rem;
+  flex-wrap: nowrap;
+}
+
+footer a {
+  text-decoration: none;
+  color: #58a6ff;
+  font-weight: bold;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+footer a:hover {
+  color: #79c0ff;
+}
+
+footer img {
+  width: 20px;
+  height: 20px;
 }

@@ -1,4 +1,3 @@
-<!-- index.html -->
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -6,6 +5,7 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>GitScout</title>
     <link rel="stylesheet" href="style.css" />
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
   </head>
   <body>
     <header>
@@ -25,9 +25,34 @@
     </header>
     <main>
       <section id="results"></section>
+      <div id="compare-section">
+        <h2>Compare Users/Organizations</h2>
+        <div class="compare-inputs">
+          <input
+            type="text"
+            id="user1Input"
+            placeholder="Enter first username/org"
+          />
+          <input
+            type="text"
+            id="user2Input"
+            placeholder="Enter second username/org"
+          />
+          <button id="compareButton">Compare</button>
+        </div>
+        <div id="comparisonResults" class="comparison-grid"></div>
+      </div>
     </main>
     <footer>
-      <p>Powered by GitHub API</p>
+      <span>Powered by GitHub API</span>
+      <span>|</span>
+      <a href="https://github.com/notshawky007" target="_blank">
+        <img
+          src="https://github.githubassets.com/images/modules/logos_page/GitHub-Mark.png"
+          alt="GitHub"
+        />
+        Shawky
+      </a>
     </footer>
     <script src="script.js"></script>
   </body>
