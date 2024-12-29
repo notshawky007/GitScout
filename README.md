@@ -14,17 +14,11 @@ Check out the live demo here: [GitScout Demo](https://notshawky007.github.io/Git
 
 ### **Search Results**
 
-_Displays GitHub profiles matching your search query._
-
-![Search Results Screenshot](#)
+![image](https://github.com/user-attachments/assets/df7dcad0-decd-445f-bbb3-476add464d5c)
 
 ### **Comparison Section**
 
-_Side-by-side comparison of two GitHub profiles._
-
-![Comparison Section Screenshot](#)
-
-(_Replace `#` with actual screenshot links or paths._)
+![image](https://github.com/user-attachments/assets/8d8e664f-fd6e-42eb-a720-0135fdb70f85)
 
 ---
 
@@ -60,5 +54,3 @@ _Side-by-side comparison of two GitHub profiles._
 2. **Compare Profiles**:
    - Enter the usernames or organization names of two profiles in the comparison inputs.
    - Click "Compare" to view their stats side-by-side.
-
----
