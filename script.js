@@ -1,17 +1,21 @@
-// script.js
-
 const BASE_URL = "https://api.github.com";
 
 document.getElementById("searchButton").addEventListener("click", handleSearch);
 
 async function handleSearch() {
   const query = document.getElementById("searchInput").value.trim();
+  const searchType = document.getElementById("searchType").value; // Get the selected type
+
   if (!query) {
     alert("Please enter a search term.");
     return;
   }
 
-  const url = `${BASE_URL}/search/users?q=${encodeURIComponent(query)}`;
+  let url = `${BASE_URL}/search/users?q=${encodeURIComponent(query)}`; // Default to searching users
+
+  if (searchType === "orgs") {
+    url = `${BASE_URL}/search/users?q=${encodeURIComponent(query)}+type:org`; // Search for organizations
+  }
 
   try {
     const response = await fetch(url);
@@ -33,13 +37,13 @@ function displayResults(items) {
     return;
   }
 
-  items.forEach((user) => {
+  items.forEach((item) => {
     const card = document.createElement("div");
     card.className = "card";
     card.innerHTML = `
-      <img src="${user.avatar_url}" alt="${user.login}">
-      <h3>${user.login}</h3>
-      <a href="${user.html_url}" target="_blank">View Profile</a>
+      <img src="${item.avatar_url}" alt="${item.login}">
+      <h3>${item.login}</h3>
+      <a href="${item.html_url}" target="_blank">View Profile</a>
     `;
     resultsContainer.appendChild(card);
   });
