@@ -1,28 +1,13 @@
 const BASE_URL = "https://api.github.com";
 
-// Event Listeners
-document.getElementById("searchButton").addEventListener("click", handleSearch);
-document
-  .getElementById("compareButton")
-  .addEventListener("click", compareUsers);
-
-// General Fetch Function
-async function fetchGitHubUserData(username) {
-  const url = `${BASE_URL}/users/${username}`;
+// Utility Function for Fetching GitHub Data
+async function fetchGitHubData(url) {
   const response = await fetch(url);
-  if (!response.ok) throw new Error(`Failed to fetch data for ${username}`);
+  if (!response.ok) throw new Error(`Failed to fetch data from ${url}`);
   return response.json();
 }
 
-async function fetchRepositories(username) {
-  const url = `${BASE_URL}/users/${username}/repos?per_page=100`;
-  const response = await fetch(url);
-  if (!response.ok)
-    throw new Error(`Failed to fetch repositories for ${username}`);
-  return response.json();
-}
-
-// Search Logic
+// Search GitHub Users/Organizations
 async function handleSearch() {
   const query = document.getElementById("searchInput").value.trim();
   const searchType = document.getElementById("searchType").value;
@@ -32,45 +17,37 @@ async function handleSearch() {
     return;
   }
 
-  let url = `${BASE_URL}/search/users?q=${encodeURIComponent(query)}`;
-  if (searchType === "orgs") {
-    url = `${BASE_URL}/search/users?q=${encodeURIComponent(query)}+type:org`;
-  }
-
   try {
-    const response = await fetch(url);
-    if (!response.ok) throw new Error("Failed to fetch data from GitHub API.");
-    const data = await response.json();
+    const url = `${BASE_URL}/search/users?q=${encodeURIComponent(query)}${
+      searchType === "orgs" ? "+type:org" : ""
+    }`;
+    const data = await fetchGitHubData(url);
     displayResults(data.items);
   } catch (error) {
     console.error(error);
-    alert("An error occurred. Please try again later.");
+    alert("An error occurred while fetching data.");
   }
 }
 
 // Display Search Results
 function displayResults(items) {
   const resultsContainer = document.getElementById("results");
-  resultsContainer.innerHTML = "";
-
-  if (items.length === 0) {
-    resultsContainer.innerHTML = "<p>No results found.</p>";
-    return;
-  }
-
-  items.forEach((item) => {
-    const card = document.createElement("div");
-    card.className = "card";
-    card.innerHTML = `
-      <img src="${item.avatar_url}" alt="${item.login}">
-      <h3>${item.login}</h3>
-      <a href="${item.html_url}" target="_blank">View Profile</a>
-    `;
-    resultsContainer.appendChild(card);
-  });
+  resultsContainer.innerHTML = items.length
+    ? items
+        .map(
+          (item) => `
+      <div class="card">
+        <img src="${item.avatar_url}" alt="${item.login}">
+        <h3>${item.login}</h3>
+        <a href="${item.html_url}" target="_blank">View Profile</a>
+      </div>
+    `
+        )
+        .join("")
+    : "<p>No results found.</p>";
 }
 
-// Comparison Logic
+// Compare GitHub Users/Organizations
 async function compareUsers() {
   const user1 = document.getElementById("user1Input").value.trim();
   const user2 = document.getElementById("user2Input").value.trim();
@@ -82,10 +59,10 @@ async function compareUsers() {
 
   try {
     const [data1, data2, repos1, repos2] = await Promise.all([
-      fetchGitHubUserData(user1),
-      fetchGitHubUserData(user2),
-      fetchRepositories(user1),
-      fetchRepositories(user2),
+      fetchGitHubData(`${BASE_URL}/users/${user1}`),
+      fetchGitHubData(`${BASE_URL}/users/${user2}`),
+      fetchGitHubData(`${BASE_URL}/users/${user1}/repos?per_page=100`),
+      fetchGitHubData(`${BASE_URL}/users/${user2}/repos?per_page=100`),
     ]);
 
     const metrics1 = extractMetrics(data1, repos1);
@@ -94,10 +71,11 @@ async function compareUsers() {
     displayComparison(data1, metrics1, data2, metrics2);
   } catch (error) {
     console.error(error);
-    alert("An error occurred while fetching data. Please try again.");
+    alert("An error occurred while comparing data.");
   }
 }
 
+// Extract Metrics
 function extractMetrics(userData, repos) {
   const totalStars = repos.reduce(
     (acc, repo) => acc + repo.stargazers_count,
@@ -110,17 +88,17 @@ function extractMetrics(userData, repos) {
     totalRepos: userData.public_repos,
     totalStars,
     followers: userData.followers,
-    languages,
+    languages: languages.join(", "),
   };
 }
 
+// Display Comparison
 function displayComparison(user1Data, metrics1, user2Data, metrics2) {
   const comparisonResults = document.getElementById("comparisonResults");
-  comparisonResults.innerHTML = "";
-
-  // Create comparison cards
-  comparisonResults.innerHTML += createComparisonCard(user1Data, metrics1);
-  comparisonResults.innerHTML += createComparisonCard(user2Data, metrics2);
+  comparisonResults.innerHTML = `
+    ${createComparisonCard(user1Data, metrics1)}
+    ${createComparisonCard(user2Data, metrics2)}
+  `;
 }
 
 function createComparisonCard(userData, metrics) {
@@ -131,7 +109,13 @@ function createComparisonCard(userData, metrics) {
       <p>Repositories: ${metrics.totalRepos}</p>
       <p>Total Stars: ${metrics.totalStars}</p>
       <p>Followers: ${metrics.followers}</p>
-      <p>Languages: ${metrics.languages.join(", ") || "None"}</p>
+      <p>Languages: ${metrics.languages || "None"}</p>
     </div>
   `;
 }
+
+// Event Listeners
+document.getElementById("searchButton").addEventListener("click", handleSearch);
+document
+  .getElementById("compareButton")
+  .addEventListener("click", compareUsers);
